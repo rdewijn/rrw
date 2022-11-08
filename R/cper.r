@@ -24,3 +24,24 @@ snsp_plot = function(aRoc){
      p = ggplot(pdf, aes(x = thr, y = value, colour = name)) + geom_point()
      p = p + scale_colour_jama()
 }
+#' performance metrics with CI
+#' @param cmat confusionMatrix object as returned by caret::confusionMatrix
+#' @import binom
+#' @export
+perfci = function(cmat){
+  levels = rownames(cmat$table)
+  posidx = match(cmat$positive, levels)
+  negidx = 1
+  if(posidx == 1) negidx = 2
+  cm = cmat$table
+  acc = binom.confint(cm[1,1] + cm[2,2], sum(cm), method = "exact")
+  sn = binom.confint(cm[posidx, posidx], sum(cm[,posidx]), method = "exact")
+  sp = binom.confint(cm[negidx, negidx], sum(cm[,negidx]), method = "exact")
+  ppv =  binom.confint(cm[posidx, posidx], sum(cm[posidx,]), method = "exact")
+  npv =  binom.confint(cm[negidx, negidx], sum(cm[negidx,]), method = "exact")
+
+  bind_rows(acc, sn, sp, ppv, npv) %>%
+    mutate(parameter = c("Accuracy", "Sensitivity", "Specificity", "PPV", "NPV")) %>%
+    select(parameter, x,n,mean, lower, upper, method)
+
+}
