@@ -1,7 +1,7 @@
 Package: rrw
 Type: Package
 Title: utilities
-Version: 0.4
+Version: 0.5
 Author: RW
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: ...
@@ -9,4 +9,4 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports: caret, pROC, dplyr, ggplot2, ggsci
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
