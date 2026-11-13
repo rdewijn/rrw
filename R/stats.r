@@ -18,3 +18,15 @@ logsd2cv = function(s, base = 2){
 cv2logsd = function(cv, base = 2){
   sqrt(log(cv^2 + 1))/log(base)
 }
+
+#' Calculate the population sd
+#'
+#' @param x vector of data points
+#' @return the sample sd multiplied by sqrt((n-1)/n) to get the population as
+#'
+#' @export
+popsd = function(x, na.rm = TRUE){
+  n = length(x)
+  sd(x, na.rm = na.rm)*sqrt((n-1)/n)
+}
+
